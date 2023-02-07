@@ -9,8 +9,9 @@ class Food(models.Model):
     image = models.ImageField(upload_to='food_images/',blank=True, null=True)
     origin_continent = models.CharField(max_length=50,blank=True, null=True)
     origin_country = models.CharField(max_length=50,blank=True, null=True)
-    main_ingredients = models.ForeignKey("Ingredient",on_delete=models.DO_NOTHING)
-    description = models.TextField(blank=True, null=True)
+    main_ingredients = models.ManyToManyField("Ingredient")
+    recipe = models.TextField(blank=True, null=True)   #Recipe
+    youtube_link = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
