@@ -2,7 +2,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from .components.open_ai import Request as OpenAIRequest
 from youtubesearchpython import VideosSearch
-from .models import Food, Ingredient
+from manage_foods.models import Food, Ingredient
 import logging
 import traceback
 from threading import Thread
