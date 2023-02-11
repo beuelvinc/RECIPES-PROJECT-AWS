@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'auth_app',
     'main_app',
+    'manage_foods',
 ]
 
 MIDDLEWARE = [
