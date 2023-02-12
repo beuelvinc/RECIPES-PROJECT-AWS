@@ -18,12 +18,9 @@ class FoodList(APIView):
         :param request: The request object that contains the GET parameters.
         :return: A Response object with the serialized Food objects.
         """
-        name = request.query_params.get('name', None)
-        pk = request.query_params.get('pk', None)
-        if name is not None:
+        name = request.GET.get('name')
+        if name:
             foods = Food.objects.filter(name__iexact=name)
-        elif pk is not None:
-            foods = Food.objects.filter(pk=pk)
         else:
             foods = Food.objects.all()
         serializer = FoodSerializer(foods, many=True)
@@ -74,10 +71,7 @@ class FoodDetail(APIView):
         :param pk: the primary key of the food item (optional)
         :return: a serialized representation of the food item
         """
-        name = request.query_params.get('name', None)
-        if name is not None:
-            food = Food.objects.get(name__iexact=name)
-        elif pk is not None:
+        if pk is not None:
             food = self.get_object(pk)
         else:
             return Response({"message": "Please provide either a name or a pk for the food."},
@@ -147,12 +141,10 @@ class IngredientList(APIView):
         :param request: the HTTP request
         :return: a message indicating
         """
-        name = request.query_params.get('name', None)
-        pk = request.query_params.get('pk', None)
-        if name is not None:
+        name = request.GET.get('name')
+
+        if name:
             Ingredients = Ingredient.objects.filter(name__iexact=name)
-        elif pk is not None:
-            Ingredients = Ingredient.objects.filter(pk=pk)
         else:
             Ingredients = Ingredient.objects.all()
         serializer = IngredientSerializer(Ingredients, many=True)
@@ -201,10 +193,7 @@ class IngredientDetail(APIView):
         :return: ingredient instance serialized
         :raises: Http400 if either name or pk is not provided
         """
-        name = request.query_params.get('name', None)
-        if name is not None:
-            ingredient = Ingredient.objects.get(name__iexact=name)
-        elif pk is not None:
+        if pk is not None:
             ingredient = self.get_object(pk)
         else:
             return Response({"message": "Please provide either a name or a pk for the Ingredient."},
