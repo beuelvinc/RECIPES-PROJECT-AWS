@@ -1,4 +1,4 @@
-version: '3'
+version: '3.7'
 services:
   db:
     image: postgres:12
@@ -8,3 +8,24 @@ services:
       - ./data/db:/var/lib/postgresql/data
     env_file:
       - .env
+
+  django_gunicorn:
+      env_file:
+        - .env
+      build:
+        context: .
+      ports:
+        - "8000:8000"
+      depends_on:
+        - db
+      command: >
+          sh -c "./wait-for-it/wait-for-it.sh db:5432 && python manage.py migrate --no-input && gunicorn riga_idea.wsgi:application --bind 0.0.0.0:8000"
+
+  nginx:
+      build: ./nginx
+      ports:
+        - "80:80"
+      depends_on:
+        - django_gunicorn
+
+

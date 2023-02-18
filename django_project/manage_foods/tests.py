@@ -75,6 +75,12 @@ class TestCaseFoodApi(TestCase):
         self.valid_payload['main_ingredients'] = [self.ingredient.id]
         response = self.client.post('/api/foods/list/', data=self.valid_payload, content_type='application/json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+    def test_create_invalid_food(self):
+        """
+        Test for creating an invalid food 
+        """
+        response = self.client.post('/api/foods/list/', data=self.valid_payload, content_type='application/json')
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_create_invalid_food(self):
         """
