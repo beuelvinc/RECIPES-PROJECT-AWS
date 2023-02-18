@@ -19,13 +19,19 @@ services:
       depends_on:
         - db
       command: >
-          sh -c "./wait-for-it/wait-for-it.sh db:5432 && python manage.py migrate --no-input && gunicorn riga_idea.wsgi:application --bind 0.0.0.0:8000"
-
+          sh -c "./wait-for-it/wait-for-it.sh db:5432 && python manage.py migrate --no-input && python manage.py collectstatic --no-input && gunicorn riga_idea.wsgi:application --bind 0.0.0.0:8000"
+      volumes:
+        - static:/app/static_root/
   nginx:
       build: ./nginx
       ports:
         - "80:80"
       depends_on:
         - django_gunicorn
+      volumes:
+        - static:/app/static_root/
+
+volumes:
+  static:
 
 
