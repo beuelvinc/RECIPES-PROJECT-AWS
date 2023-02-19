@@ -8,10 +8,23 @@ variables:
 
 stages:
   - test
+  - deploy
 
 test:
   stage: test
   script:
     - docker-compose -f docker-compose.yml run django_gunicorn python manage.py test
+
+
+deploy to s3:
+  stage: deploy
+  image:
+    name: amazon/aws-cli
+    entrypoint: [""]
+
+  rules:
+    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
+  script:
+    -  aws s3 sync . s3://test-19.02 --exclude ".venv/*" --include "*" --delete
 
 
