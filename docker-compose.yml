@@ -7,9 +7,9 @@ services:
     volumes:
       - ./data/db:/var/lib/postgresql/data
     environment:
-      POSTGRES_USER: $("USER")
-      POSTGRES_PASSWORD:  $("PASSWORD")
-      POSTGRES_DB: $("NAME")
+      POSTGRES_USER: ${USER}
+      POSTGRES_PASSWORD:  ${PASSWORD}
+      POSTGRES_DB: ${NAME}
 
 
   django_gunicorn:
