@@ -13,6 +13,7 @@ services:
 
 
   django_gunicorn:
+      image: myweb:myweb1
       env_file:
         - .env
       build:
@@ -26,6 +27,7 @@ services:
       volumes:
         - static:/app/static_root/
   nginx:
+      image: mynginx:mynginx1
       build: ./nginx
       ports:
         - "80:80"
